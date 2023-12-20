@@ -3,8 +3,8 @@
 #include "libssh_esp32.h"
 #include <libssh/libssh.h>
 
-const char* ssid = "SETUP-8CD3";
-const char* password = "career6174brace";
+const char* ssid = "Your_SSID";
+const char* password = "Your_Password";
 
 // Function declarations
 ssh_session connect_ssh(const char *host, const char *user, int verbosity);
@@ -47,7 +47,7 @@ void sshTask(void *pvParameters) {
     if (my_ssh_session != NULL) {
         M5.Lcd.println("SSH Connection established.");
 
-        if (authenticate_console(my_ssh_session, "u53r") == SSH_OK) {
+        if (authenticate_console(my_ssh_session, "password") == SSH_OK) {
             M5.Lcd.println("SSH Authentication succeeded.");
             // Authentication successful
         } else {
