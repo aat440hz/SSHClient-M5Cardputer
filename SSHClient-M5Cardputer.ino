@@ -3,13 +3,13 @@
 #include "libssh_esp32.h"
 #include <libssh/libssh.h>
 
-const char* ssid = "SETUP-8CD3"; // Replace with your WiFi SSID
-const char* password = "career6174brace"; // Replace with your WiFi password
+const char* ssid = "Your_SSID"; // Replace with your WiFi SSID
+const char* password = "Your_Password"; // Replace with your WiFi password
 
 // SSH server configuration
 const char* ssh_host = "192.168.0.188"; // Replace with your SSH server address
 const char* ssh_user = "user"; // Replace with your SSH username
-const char* ssh_password = "u53r"; // Replace with your SSH password
+const char* ssh_password = "password"; // Replace with your SSH password
 
 // M5Cardputer setup
 M5Canvas canvas(&M5Cardputer.Display);
