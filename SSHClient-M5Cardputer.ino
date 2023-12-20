@@ -15,7 +15,7 @@ const char* ssh_password = "password"; // Replace with your SSH password
 M5Canvas canvas(&M5Cardputer.Display);
 String commandBuffer = "> ";
 int cursorY = 0;
-const int lineHeight = 8;
+const int lineHeight = 32;
 unsigned long lastKeyPressMillis = 0;
 const unsigned long debounceDelay = 200; // Adjust debounce delay as needed
 
