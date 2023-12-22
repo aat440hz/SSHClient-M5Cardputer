@@ -3,13 +3,13 @@
 #include "libssh_esp32.h"
 #include <libssh/libssh.h>
 
-const char* ssid = "Your_SSID"; // Replace with your WiFi SSID
-const char* password = "Your_Password"; // Replace with your WiFi password
+const char* ssid = "SETUP-8CD3"; // Replace with your WiFi SSID
+const char* password = "career6174brace"; // Replace with your WiFi password
 
-// SSH server configuration
-const char* ssh_host = "192.168.0.222"; // Replace with your SSH server address
-const char* ssh_user = "user"; // Replace with your SSH username
-const char* ssh_password = "password"; // Replace with your SSH password
+// SSH server configuration (initialize as empty strings)
+String ssh_host = "";
+String ssh_user = "";
+String ssh_password = "";
 
 // M5Cardputer setup
 M5Canvas canvas(&M5Cardputer.Display);
@@ -42,14 +42,22 @@ void setup() {
     // Initialize the cursor Y position
     cursorY = M5Cardputer.Display.getCursorY();
 
+    // Prompt for SSH host, username, and password
+    M5Cardputer.Display.print("SSH Host: ");
+    waitForInput(ssh_host);
+    M5Cardputer.Display.print("\nSSH Username: ");
+    waitForInput(ssh_user);
+    M5Cardputer.Display.print("\nSSH Password: ");
+    waitForInput(ssh_password);
+
     // Connect and authenticate with SSH server
     my_ssh_session = ssh_new();
     if (my_ssh_session == NULL) {
         Serial.println("SSH Session creation failed.");
         return;
     }
-    ssh_options_set(my_ssh_session, SSH_OPTIONS_HOST, ssh_host);
-    ssh_options_set(my_ssh_session, SSH_OPTIONS_USER, ssh_user);
+    ssh_options_set(my_ssh_session, SSH_OPTIONS_HOST, ssh_host.c_str());
+    ssh_options_set(my_ssh_session, SSH_OPTIONS_USER, ssh_user.c_str());
 
     if (ssh_connect(my_ssh_session) != SSH_OK) {
         Serial.println("SSH Connect error.");
@@ -57,7 +65,7 @@ void setup() {
         return;
     }
 
-    if (ssh_userauth_password(my_ssh_session, NULL, ssh_password) != SSH_AUTH_SUCCESS) {
+    if (ssh_userauth_password(my_ssh_session, NULL, ssh_password.c_str()) != SSH_AUTH_SUCCESS) {
         Serial.println("SSH Authentication error.");
         ssh_disconnect(my_ssh_session);
         ssh_free(my_ssh_session);
@@ -156,5 +164,53 @@ void loop() {
         ssh_free(my_ssh_session);
         M5Cardputer.Display.println("\nSSH session closed.");
         return; // Exit the loop upon session closure
+    }
+}
+
+void waitForInput(String& input) {
+    unsigned long startTime = millis();
+    unsigned long lastKeyPressMillis = 0;
+    const unsigned long debounceDelay = 200; // Adjust debounce delay as needed
+    String currentInput = input;
+
+    while (true) {
+        M5Cardputer.update();
+        if (M5Cardputer.Keyboard.isChange()) {
+            Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+            
+            if (status.del && currentInput.length() > 0) {
+                // Handle backspace key
+                currentInput.remove(currentInput.length() - 1);
+                M5Cardputer.Display.setCursor(M5Cardputer.Display.getCursorX() - 6, M5Cardputer.Display.getCursorY());
+                M5Cardputer.Display.print(" ");
+                M5Cardputer.Display.setCursor(M5Cardputer.Display.getCursorX() - 6, M5Cardputer.Display.getCursorY());
+                cursorY = M5Cardputer.Display.getCursorY();
+                lastKeyPressMillis = millis();
+            }
+
+            for (auto i : status.word) {
+                currentInput += i;
+                M5Cardputer.Display.print(i);
+                cursorY = M5Cardputer.Display.getCursorY();
+                lastKeyPressMillis = millis();
+            }
+
+            if (status.enter) {
+                M5Cardputer.Display.println(); // Move to the next line
+                input = currentInput;
+                break;
+            }
+        }
+
+        if (millis() - startTime > 60000) { // Timeout after 60 seconds
+            M5Cardputer.Display.println("\nInput timeout. Rebooting...");
+            delay(1000); // Delay for 1 second to allow the message to be displayed
+            ESP.restart(); // Reboot the ESP32
+        }
+
+        // Debounce delay for the keyboard input
+        if (millis() - lastKeyPressMillis >= debounceDelay) {
+            lastKeyPressMillis = millis();
+        }
     }
 }
