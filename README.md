@@ -20,20 +20,18 @@ Before you get started, make sure you have the following hardware and software i
 
 2. Open the Arduino IDE, go to **File > Preferences**, and add the following URL to the "Additional Boards Manager URLs" field:
 
-https://dl.espressif.com/dl/package_esp32_index.json
-
+   https://dl.espressif.com/dl/package_esp32_index.json
 
 3. Go to **Tools > Board > Boards Manager**, search for "esp32," and install the ESP32 board manager.
 
 4. Select your M5Cardputer device from the **Tools > Board** menu.
 
 5. Install the required libraries:
-- M5Cardputer library: Go to **Sketch > Include Library > M5Cardputer**
-- `libssh_esp32` and `libssh`: Download the libraries from their respective repositories and install them using **Sketch > Include Library > Add .ZIP Library**.
+   - M5Cardputer library: Go to **Sketch > Include Library > M5Cardputer**
+   - `libssh_esp32` and `libssh`: Download the libraries from their respective repositories and install them using **Sketch > Include Library > Add .ZIP Library**.
 
-6. Configure your WiFi and SSH server settings in the Arduino sketch:
-- Set your WiFi SSID and password.
-- Specify your SSH server address, username, and password.
+6. Configure your WiFi settings in the Arduino sketch:
+   - Set your WiFi SSID and password.
 
 7. Connect your M5Cardputer device to your computer, select the correct COM port, and upload the sketch.
 
@@ -53,7 +51,7 @@ https://dl.espressif.com/dl/package_esp32_index.json
 
 - Basic SSH terminal interface with M5Cardputer.
 - Keyboard input and display for interacting with the SSH server.
-- Ability to configure WiFi and SSH server settings in the Arduino sketch.
+- Ability to configure WiFi settings in the Arduino sketch.
 
 ## Contributing
 
