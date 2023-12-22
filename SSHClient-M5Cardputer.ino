@@ -189,10 +189,12 @@ void waitForInput(String& input) {
             }
 
             for (auto i : status.word) {
-                currentInput += i;
-                M5Cardputer.Display.print(i);
-                cursorY = M5Cardputer.Display.getCursorY();
-                lastKeyPressMillis = millis();
+                if (millis() - lastKeyPressMillis >= debounceDelay) {
+                    currentInput += i;
+                    M5Cardputer.Display.print(i);
+                    cursorY = M5Cardputer.Display.getCursorY();
+                    lastKeyPressMillis = millis();
+                }
             }
 
             if (status.enter) {
@@ -206,11 +208,6 @@ void waitForInput(String& input) {
             M5Cardputer.Display.println("\nInput timeout. Rebooting...");
             delay(1000); // Delay for 1 second to allow the message to be displayed
             ESP.restart(); // Reboot the ESP32
-        }
-
-        // Debounce delay for the keyboard input
-        if (millis() - lastKeyPressMillis >= debounceDelay) {
-            lastKeyPressMillis = millis();
         }
     }
 }
