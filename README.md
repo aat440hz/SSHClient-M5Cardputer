@@ -11,7 +11,7 @@ Before you get started, make sure you have the following hardware and software i
 - [Arduino IDE](https://www.arduino.cc/en/software)
 - Libraries:
   - M5Cardputer library
-  - [libssh_esp32](https://github.com/jonblack/libssh_esp32)
+  - [libssh_esp32](https://github.com/ewpa/LibSSH-ESP32)
   - [libssh](https://www.libssh.org/)
 
 ## Installation
