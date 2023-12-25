@@ -204,10 +204,10 @@ void waitForInput(String& input) {
             }
         }
 
-        if (millis() - startTime > 60000) { // Timeout after 60 seconds
-            M5Cardputer.Display.println("\nInput timeout. Rebooting...");
-            delay(1000); // Delay for 1 second to allow the message to be displayed
-            ESP.restart(); // Reboot the ESP32
-        }
+//        if (millis() - startTime > 60000) { // Timeout after 60 seconds
+//            M5Cardputer.Display.println("\nInput timeout. Rebooting...");
+//            delay(1000); // Delay for 1 second to allow the message to be displayed
+//            ESP.restart(); // Reboot the ESP32
+//        }
     }
 }
