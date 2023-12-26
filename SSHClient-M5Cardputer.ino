@@ -22,6 +22,8 @@ const unsigned long debounceDelay = 200; // Adjust debounce delay as needed
 ssh_session my_ssh_session;
 ssh_channel channel;
 
+bool filterAnsiSequences = true; // Set to false to disable ANSI sequence filtering
+
 void setup() {
     Serial.begin(115200); // Initialize serial communication for debugging
     Serial.println("Starting Setup");
@@ -126,10 +128,10 @@ void loop() {
             }
 
             if (status.enter) {
-                String message = commandBuffer.substring(2) + "\n";
+                String message = commandBuffer.substring(2) + "\r\n";
                 ssh_channel_write(channel, message.c_str(), message.length());
 
-                commandBuffer = "> "; // Reset command buffer
+                commandBuffer = "> ";
                 M5Cardputer.Display.print('\n');
                 cursorY = M5Cardputer.Display.getCursorY();
             }
@@ -151,19 +153,19 @@ void loop() {
     if (nbytes > 0) {
         for (int i = 0; i < nbytes; ++i) {
             char c = buffer[i];
-
-            // Handle ANSI sequences
-            if (c == '\033') { // Start of an ANSI sequence
-                isAnsiSequence = true;
-            } else if (isAnsiSequence) {
-                // Process ANSI sequences here
-                // For simplicity, assume you're just ending the sequence at the letter
-                if (isalpha(c)) {
-                    isAnsiSequence = false;
+            if (filterAnsiSequences) {
+                if (c == '\033') {
+                    isAnsiSequence = true; // Enter ANSI sequence mode
+                } else if (isAnsiSequence) {
+                    if (isalpha(c)) {
+                        isAnsiSequence = false; // Exit ANSI sequence mode at the end character
+                    }
+                } else {
+                    if (c == '\r') continue; // Ignore carriage return
+                    M5Cardputer.Display.write(c);
+                    cursorY = M5Cardputer.Display.getCursorY();
                 }
-                // Here you would add handling for interactive sequences or maintain terminal state
             } else {
-                // Regular character processing
                 if (c == '\r') continue; // Ignore carriage return
                 M5Cardputer.Display.write(c);
                 cursorY = M5Cardputer.Display.getCursorY();
