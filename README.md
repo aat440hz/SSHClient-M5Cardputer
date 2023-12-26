@@ -10,7 +10,7 @@ Before you get started, make sure you have the following hardware and software i
 - ESP32 development environment
 - [Arduino IDE](https://www.arduino.cc/en/software)
 - Libraries:
-  - M5Cardputer library
+  - M5Stack library
   - [LibSSH-ESP32](https://github.com/ewpa/LibSSH-ESP32) by Ewan Parker
 
 ## Installation
