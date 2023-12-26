@@ -37,13 +37,11 @@ Before you get started, make sure you have the following hardware and software i
 
 1. Power on your M5Cardputer device.
 
-2. You should see the M5Cardputer screen display a terminal-like interface. Use the keyboard to type commands.
+2. Connect to your SSH server by pressing Enter after typing the server address, username, and password.
 
-3. Connect to your SSH server by pressing Enter after typing the server address, username, and password.
+3. You can now interact with your SSH server through the M5Cardputer terminal.
 
-4. You can now interact with your SSH server through the M5Cardputer terminal.
-
-5. The terminal supports basic keyboard input, and you can send commands to the SSH server.
+4. The terminal supports basic keyboard input, and you can send commands to the SSH server.
 
 ## Features
 
