@@ -63,6 +63,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- [M5Cardputer](https://m5stack.com/)
+- [M5Stack](https://m5stack.com/)
 - [libssh_esp32](https://github.com/ewpa/LibSSH-ESP32)
 - [libssh](https://www.libssh.org/)
