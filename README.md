@@ -6,7 +6,7 @@ This project demonstrates how to create an SSH terminal using an M5Cardputer dev
 
 Before you get started, make sure you have the following hardware and software installed:
 
-- [M5Cardputer](https://m5stack.com/)
+- [M5Cardputer](https://shop.m5stack.com/)
 - ESP32 development environment
 - [Arduino IDE](https://www.arduino.cc/en/software)
 - Libraries:
