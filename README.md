@@ -11,8 +11,7 @@ Before you get started, make sure you have the following hardware and software i
 - [Arduino IDE](https://www.arduino.cc/en/software)
 - Libraries:
   - M5Cardputer library
-  - [libssh_esp32](https://github.com/ewpa/LibSSH-ESP32)
-  - [libssh](https://www.libssh.org/)
+  - [LibSSH-ESP32](https://github.com/ewpa/LibSSH-ESP32) by Ewan Parker
 
 ## Installation
 
@@ -20,15 +19,15 @@ Before you get started, make sure you have the following hardware and software i
 
 2. Open the Arduino IDE, go to **File > Preferences**, and add the following URL to the "Additional Boards Manager URLs" field:
 
-   https://dl.espressif.com/dl/package_esp32_index.json
+   `https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/arduino/package_m5stack_index.json`
 
-3. Go to **Tools > Board > Boards Manager**, search for "esp32," and install the ESP32 board manager.
+3. Go to **Tools > Board > Boards Manager**, search for "M5Stack," and install the M5Stack board manager.
 
 4. Select your M5Cardputer device from the **Tools > Board** menu.
 
 5. Install the required libraries:
    - M5Cardputer library: Go to **Sketch > Include Library > M5Cardputer**
-   - `libssh_esp32` and `libssh`: Download the libraries from their respective repositories and install them using **Sketch > Include Library > Add .ZIP Library**.
+   - LibSSH-ESP32: It can be installed directly via the Arduino Library Manager. Search for "libssh" in the Library Manager and install `LibSSH-ESP32` by Ewan Parker.
 
 6. Configure your WiFi settings in the Arduino sketch:
    - Set your WiFi SSID and password.
@@ -64,5 +63,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - [M5Stack](https://m5stack.com/)
-- [libssh_esp32](https://github.com/ewpa/LibSSH-ESP32)
-- [libssh](https://www.libssh.org/)
+- [LibSSH-ESP32](https://github.com/ewpa/LibSSH-ESP32) by Ewan Parker
