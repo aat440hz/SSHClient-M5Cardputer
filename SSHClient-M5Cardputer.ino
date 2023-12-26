@@ -3,8 +3,8 @@
 #include "libssh_esp32.h"
 #include <libssh/libssh.h>
 
-const char* ssid = "SETUP-8CD3"; // Replace with your WiFi SSID
-const char* password = "career6174brace"; // Replace with your WiFi password
+const char* ssid = "Your_SSID"; // Replace with your WiFi SSID
+const char* password = "Your_Password"; // Replace with your WiFi password
 
 // SSH server configuration (initialize as empty strings)
 String ssh_host = "";
