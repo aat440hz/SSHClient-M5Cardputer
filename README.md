@@ -26,7 +26,6 @@ Before you get started, make sure you have the following hardware and software i
 4. Select your M5Cardputer device from the **Tools > Board** menu.
 
 5. Install the required libraries:
-   - M5Cardputer library: Go to **Sketch > Include Library > M5Cardputer**
    - LibSSH-ESP32: It can be installed directly via the Arduino Library Manager. Search for "libssh" in the Library Manager and install `LibSSH-ESP32` by Ewan Parker.
 
 6. Configure your WiFi settings in the Arduino sketch:
