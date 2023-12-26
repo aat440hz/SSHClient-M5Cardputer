@@ -143,16 +143,27 @@ void loop() {
         M5Cardputer.Display.setCursor(M5Cardputer.Display.getCursorX(), cursorY);
     }
 
-    // Read data from SSH server and display it
+    // Read data from SSH server and display it, handling ANSI sequences
     char buffer[128]; // Reduced buffer size for less memory usage
     int nbytes = ssh_channel_read_nonblocking(channel, buffer, sizeof(buffer), 0);
+    bool isAnsiSequence = false; // To track when we are inside an ANSI sequence
+
     if (nbytes > 0) {
         for (int i = 0; i < nbytes; ++i) {
-            if (buffer[i] == '\r') {
-                continue; // Ignore carriage return
+            char c = buffer[i];
+
+            // Handle ANSI sequences
+            if (c == '\033') { // Start of an ANSI sequence
+                isAnsiSequence = true;
+            } else if (isAnsiSequence && isalpha(c)) { // End of an ANSI sequence
+                isAnsiSequence = false;
+            } else if (!isAnsiSequence) { // Regular character
+                if (c == '\r') {
+                    continue; // Ignore carriage return
+                }
+                M5Cardputer.Display.write(c);
+                cursorY = M5Cardputer.Display.getCursorY();
             }
-            M5Cardputer.Display.write(buffer[i]);
-            cursorY = M5Cardputer.Display.getCursorY();
         }
     }
 
@@ -204,10 +215,10 @@ void waitForInput(String& input) {
             }
         }
 
-//        if (millis() - startTime > 60000) { // Timeout after 60 seconds
-//            M5Cardputer.Display.println("\nInput timeout. Rebooting...");
-//            delay(1000); // Delay for 1 second to allow the message to be displayed
-//            ESP.restart(); // Reboot the ESP32
-//        }
+        if (millis() - startTime > 180000) { // Timeout after 3 minutes
+            M5Cardputer.Display.println("\nInput timeout. Rebooting...");
+            delay(1000); // Delay for 1 second to allow the message to be displayed
+            ESP.restart(); // Reboot the ESP32
+        }
     }
 }
