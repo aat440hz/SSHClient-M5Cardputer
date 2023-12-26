@@ -126,7 +126,7 @@ void loop() {
             }
 
             if (status.enter) {
-                String message = commandBuffer.substring(2) + "\n"; // Ensure only one newline character is used
+                String message = commandBuffer.substring(2) + "\n";
                 ssh_channel_write(channel, message.c_str(), message.length());
 
                 commandBuffer = "> "; // Reset command buffer
@@ -155,12 +155,16 @@ void loop() {
             // Handle ANSI sequences
             if (c == '\033') { // Start of an ANSI sequence
                 isAnsiSequence = true;
-            } else if (isAnsiSequence && isalpha(c)) { // End of an ANSI sequence
-                isAnsiSequence = false;
-            } else if (!isAnsiSequence) { // Regular character
-                if (c == '\r') {
-                    continue; // Ignore carriage return
+            } else if (isAnsiSequence) {
+                // Process ANSI sequences here
+                // For simplicity, assume you're just ending the sequence at the letter
+                if (isalpha(c)) {
+                    isAnsiSequence = false;
                 }
+                // Here you would add handling for interactive sequences or maintain terminal state
+            } else {
+                // Regular character processing
+                if (c == '\r') continue; // Ignore carriage return
                 M5Cardputer.Display.write(c);
                 cursorY = M5Cardputer.Display.getCursorY();
             }
