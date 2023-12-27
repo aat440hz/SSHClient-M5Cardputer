@@ -128,12 +128,14 @@ void loop() {
             }
 
             if (status.enter) {
-                String message = commandBuffer.substring(2) + "\r\n";
-                ssh_channel_write(channel, message.c_str(), message.length());
+                commandBuffer.trim(); // Trim the command buffer to remove accidental whitespaces/newlines
+                String message = commandBuffer.substring(2); // Get the command part, exclude the "> "
+                ssh_channel_write(channel, message.c_str(), message.length()); // Send the command
+                ssh_channel_write(channel, "\r", 1); // Send exactly one carriage return (try "\n" or "\r\n" if needed)
 
-                commandBuffer = "> ";
-                M5Cardputer.Display.print('\n');
-                cursorY = M5Cardputer.Display.getCursorY();
+                commandBuffer = "> "; // Reset command buffer
+                M5Cardputer.Display.print('\n'); // Move to the next line on display
+                cursorY = M5Cardputer.Display.getCursorY(); // Update cursor position
             }
         }
     }
