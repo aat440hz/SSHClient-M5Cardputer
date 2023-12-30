@@ -106,7 +106,8 @@ void setup() {
 void loop() {
     M5Cardputer.update();
 
-    // Handle keyboard input with debounce
+    bool controlMode = M5Cardputer.BtnA.isPressed(); // Check if btnA is pressed for control mode
+
     if (M5Cardputer.Keyboard.isChange() && M5Cardputer.Keyboard.isPressed()) {
         unsigned long currentMillis = millis();
         if (currentMillis - lastKeyPressMillis >= debounceDelay) {
@@ -114,9 +115,16 @@ void loop() {
             Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
 
             for (auto i : status.word) {
-                commandBuffer += i;
-                M5Cardputer.Display.print(i);
-                cursorY = M5Cardputer.Display.getCursorY();
+                if (controlMode) {
+                    // If btnA is held down, send control character instead
+                    char ctrlChar = mapToControlCharacter(i);
+                    ssh_channel_write(channel, &ctrlChar, 1);
+                } else {
+                    // Normal character handling
+                    commandBuffer += i;
+                    M5Cardputer.Display.print(i);
+                    cursorY = M5Cardputer.Display.getCursorY();
+                }
             }
 
             if (status.del && commandBuffer.length() > 2) {
@@ -183,6 +191,20 @@ void loop() {
         ssh_free(my_ssh_session);
         M5Cardputer.Display.println("\nSSH session closed.");
         return; // Exit the loop upon session closure
+    }
+}
+
+char mapToControlCharacter(char key) {
+    // ASCII control characters are typically the first 32 characters in the ASCII table
+    if (key >= 'a' && key <= 'z') {
+        return key - 'a' + 1;  // 'a' - 1 -> 'z' - 26
+    } else if (key >= 'A' && key <= 'Z') {
+        return key - 'A' + 1;  // 'A' - 1 -> 'Z' - 26
+    } else {
+        // Here you can add specific cases for other characters, like '[' or '4',
+        // or handle them with a default case.
+        // Example: case '2': return '\x00'; // If Ctrl+2 is a special character in your context
+        return key; // or some default handling or error signaling
     }
 }
 
